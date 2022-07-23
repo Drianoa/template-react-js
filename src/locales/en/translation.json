@@ -1,0 +1,22 @@
+{
+  "accueil": {
+    "description": "Learn React",
+    "titre": "Welcome to react using react-i18next"
+  },
+  "commun": {
+    "aujourdhui": "Today"
+  },
+  "page": {
+    "absent": "Not Found",
+    "echec": "Page load failed",
+    "last": "Last Page",
+    "reload": "Reload"
+  },
+  "pages": {
+    "accueil": "Home",
+    "query": "Contact",
+    "formulaire": "Forms",
+    "yup": "Yup",
+    "websocket": "Web Socket"
+  }
+}
