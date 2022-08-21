@@ -1,10 +1,10 @@
 /**
- * Liste des chemins disponibles dans l'application
+ * List des chemins globaux de l'application
+ * @type {{utilisateurs: string, supprimer: string, root: string, nouveau: string}}
  */
 export const ROUTES = {
-  accueil: '/',
-  yup: '/login',
-  formulaires: '/factures',
-  query: '/contact',
-  websocket: '/websocket',
+  root: '/',
+  nouveau: 'new',
+  supprimer: 'delete',
+  utilisateurs: '/utilisateurs',
 }

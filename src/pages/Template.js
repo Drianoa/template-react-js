@@ -1,26 +1,65 @@
-import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { PageErreur } from "../composants/PageErreur";
-import { useNavigation } from "../hook/useNavigation";
-import { Navigation } from "../layout/Navigation";
-import { BarreMenu } from "../layout/BarreMenu";
+import React, {useContext} from 'react'
+import {Route, Routes} from 'react-router-dom'
+import BarreMenu from '../layout/BarreMenu'
+import {Accueil} from './accueil/Accueil'
+import TableauUtilisateurs from './utilisateur/TableauUtilisateurs'
+import {DialogUtilisateur} from './utilisateur/DialogUtilisateur'
+import {PageErreur} from '../composants/Messages/PageErreur'
+import absentIcon from '../images/404.png'
+import {Connexion} from './connexion/Connexion'
+import {ROUTES} from '../constantes/constantes-routes'
+import {DialogSupression} from '../composants/Popup/DialogSupression'
+import {UserContext} from '../provider/UserProvider'
 
 /**
- * Composant servant de base à l'application
+ * Composant principal de l'application, permet de gérer les routes et l'agencement
  * @returns {JSX.Element}
  * @constructor
  */
 export const Template = () => {
-  // ====== PARAMETRAGE ====== //
+  const {user, setUser} = useContext(UserContext)
 
-  const {reloadPage, navigateLastPage} = useNavigation()
+  const handleConnexion = values => {
+    setUser(values)
+  }
 
-  // ====== AFFICHAGE ====== //
+  const handleDeconnexion = () => {
+    setUser(undefined)
+  }
 
   return (
-    <ErrorBoundary FallbackComponent={PageErreur} onReset={reloadPage}>
-      <BarreMenu />
-      <Navigation navigateLastPage={navigateLastPage} />
-    </ErrorBoundary>
+    <React.Fragment>
+      <Routes>
+        {user ? (
+          <Route
+            path={ROUTES.root}
+            element={<BarreMenu handleDeconnexion={handleDeconnexion} />}
+          >
+            <Route index element={<Accueil user={user} />} />
+            <Route path={ROUTES.utilisateurs} element={<TableauUtilisateurs />}>
+              <Route path={ROUTES.nouveau} element={<DialogUtilisateur />} />
+              <Route path={ROUTES.supprimer} element={<DialogSupression />} />
+              <Route path={':id'} element={<DialogUtilisateur />} />
+            </Route>
+            <Route
+              path={'*'}
+              element={
+                <PageErreur
+                  titre={'page.absente_titre'}
+                  message={'page.absente_message'}
+                  description={'page.absente_description'}
+                  icone={absentIcon}
+                />
+              }
+            />
+          </Route>
+        ) : (
+          <Route
+            path={'*'}
+            element={<Connexion handleConnexion={handleConnexion} />}
+          />
+        )}
+      </Routes>
+    </React.Fragment>
   )
 }

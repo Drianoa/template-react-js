@@ -1,9 +1,8 @@
-import React from "react";
-
-import "./chargement.css";
+import React from 'react'
+import './css/chargement.css'
 
 /**
- * Composant permettant d'afficher une image pivotant à 360°
+ * Composant permettant de simuler un chargement en affichant une image pivotant à 360°
  * @param logo Image à faire pivoter
  * @returns {JSX.Element}
  * @constructor
